@@ -74,3 +74,14 @@
 .issue-status--closed {
   color: var(--color-danger);
 }
+
+.scroll-sentinel {
+  height: 1px;
+}
+
+.loading-indicator {
+  margin: var(--spacing-lg) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}

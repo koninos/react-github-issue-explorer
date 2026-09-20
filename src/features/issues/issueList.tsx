@@ -1,34 +1,64 @@
-import { type Issue } from "./api";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { fetchIssues } from "./api";
+import { useEffect, useRef } from "react";
 import "./issueList.css";
 
-const mockIssues: Issue[] = [
-  {
-    id: 1,
-    number: 12345,
-    title: "Fix incorrect state update when navigating between views",
-    html_url: "#",
-    state: "open",
-    author: "johndoe",
-  },
-  {
-    id: 2,
-    number: 12344,
-    title: "Improve error handling for failed requests",
-    html_url: "#",
-    state: "open",
-    author: "janedoe",
-  },
-  {
-    id: 3,
-    number: 12343,
-    title: "Remove unnecessary re-renders in the issue list",
-    html_url: "#",
-    state: "closed",
-    author: "developer123",
-  },
-];
-
 export function IssueList() {
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const {
+    data,
+    isPending,
+    isError,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["issues"],
+    queryFn: ({ pageParam }) => fetchIssues(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastlyFetchedPage, allPagesFetchedSoFar) => {
+      const numberOfLastPageIssues = lastlyFetchedPage.length;
+
+      if (numberOfLastPageIssues === 0) {
+        return undefined;
+      }
+
+      return allPagesFetchedSoFar.length + 1;
+    },
+  });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((intersectionEntries) => {
+      const [entry] = intersectionEntries;
+
+      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    });
+
+    const sentinel = sentinelRef.current;
+
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  if (isPending) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  const issues = data?.pages.flat() ?? [];
+
   return (
     <main className="issue-explorer">
       <header className="page-header">
@@ -37,7 +67,7 @@ export function IssueList() {
       </header>
 
       <ul className="issue-list">
-        {mockIssues.map(({ id, html_url, title, number, state, author }) => (
+        {issues.map(({ id, html_url, title, number, state, author }) => (
           <li key={id}>
             <article className="issue-card">
               <div className="issue-card__header">
@@ -63,6 +93,14 @@ export function IssueList() {
           </li>
         ))}
       </ul>
+
+      <div ref={sentinelRef} className="scroll-sentinel" />
+
+      {isFetchingNextPage && (
+        <p className="loading-indicator" role="status">
+          Loading more issues...
+        </p>
+      )}
     </main>
   );
 }
