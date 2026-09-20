@@ -1,7 +1,9 @@
 {
   "name": "issue-explorer",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
+  "description": "A React application for exploring GitHub issues with infinite scrolling and virtualization",
+  "author": "Konstantinos Gialouris",
   "type": "module",
   "scripts": {
     "dev": "vite",
