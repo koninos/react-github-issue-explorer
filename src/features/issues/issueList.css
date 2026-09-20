@@ -33,6 +33,17 @@
   text-decoration: underline;
 }
 
+.issue-card__header a:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.issue-card__header a:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+}
+
 .issue-card__meta {
   display: flex;
   align-items: center;
@@ -40,4 +51,26 @@
   margin-top: var(--spacing-sm);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
+}
+
+.issue-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-transform: capitalize;
+}
+
+.issue-status__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.issue-status--open {
+  color: var(--color-success);
+}
+
+.issue-status--closed {
+  color: var(--color-danger);
 }

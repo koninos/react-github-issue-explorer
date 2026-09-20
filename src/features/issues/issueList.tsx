@@ -48,7 +48,15 @@ export function IssueList() {
 
               <div className="issue-card__meta">
                 <span>#{number}</span>
-                <span>{state}</span>
+
+                <span className={`issue-status issue-status--${state}`}>
+                  <span
+                    className="issue-status__indicator"
+                    aria-hidden="true"
+                  />
+                  {state}
+                </span>
+
                 <span>{author}</span>
               </div>
             </article>
