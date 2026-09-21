@@ -1,7 +1,9 @@
 import { IssueRow } from "../issueRow/issueRow";
 import { useIssues } from "../../hooks/useIssues";
-import "./issueList.css";
+import { Error } from "../error/error";
 import { useIssueVirtualizer } from "../../hooks/useIssueVirtualization";
+import { Loader } from "../loader/loader";
+import "./issueList.css";
 
 export function IssueList() {
   const {
@@ -23,14 +25,6 @@ export function IssueList() {
     fetchNextPage,
   });
 
-  if (isPending) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Error: {error.message}</p>;
-  }
-
   return (
     <main className="issue-explorer">
       <header className="page-header">
@@ -38,31 +32,37 @@ export function IssueList() {
         <p>Browse issues from the React repository</p>
       </header>
 
-      <div
-        className="issue-list"
-        ref={parentRef}
-        aria-label="React repository issues"
-      >
-        <ul
-          className="issue-list__content"
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`,
-          }}
-        >
-          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-            const issue = issues[virtualRow.index];
+      {isPending && <Loader />}
 
-            return (
-              <IssueRow
-                key={issue.id}
-                issue={issue}
-                virtualRow={virtualRow}
-                measureElement={rowVirtualizer.measureElement}
-              />
-            );
-          })}
-        </ul>
-      </div>
+      {isError && <Error errorMsg={error.message} />}
+
+      {!isPending && !isError && (
+        <div
+          className="issue-list"
+          ref={parentRef}
+          aria-label="React repository issues"
+        >
+          <ul
+            className="issue-list__content"
+            style={{
+              height: `${rowVirtualizer.getTotalSize()}px`,
+            }}
+          >
+            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+              const issue = issues[virtualRow.index];
+
+              return (
+                <IssueRow
+                  key={issue.id}
+                  issue={issue}
+                  virtualRow={virtualRow}
+                  measureElement={rowVirtualizer.measureElement}
+                />
+              );
+            })}
+          </ul>
+        </div>
+      )}
 
       {isFetchingNextPage && (
         <p className="loading-indicator" role="status">
