@@ -11,6 +11,9 @@ const config: Config = {
       },
     ],
   },
+  moduleNameMapper: {
+    "\\.css$": "<rootDir>/src/test/styleMock.ts",
+  },
 };
 
 export default config;

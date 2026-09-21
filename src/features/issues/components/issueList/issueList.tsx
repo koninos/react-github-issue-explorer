@@ -3,8 +3,8 @@ import { useIssues } from "../../hooks/useIssues";
 import { Error } from "../error/error";
 import { useIssueVirtualizer } from "../../hooks/useIssueVirtualization";
 import { Loader } from "../loader/loader";
-import "./issueList.css";
 import { EmptyState } from "../emptyState/emptyState";
+import "./issueList.css";
 
 export function IssueList() {
   const {

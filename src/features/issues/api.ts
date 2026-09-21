@@ -18,7 +18,7 @@ type GitHubIssue = {
   };
 };
 
-function mapGitHubIssue(issue: GitHubIssue): Issue {
+export function mapGitHubIssue(issue: GitHubIssue): Issue {
   const { id, html_url, number, state, title, user } = issue;
 
   return {

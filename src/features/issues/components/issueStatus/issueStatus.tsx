@@ -1,4 +1,4 @@
-import type { Issue } from "../api";
+import type { Issue } from "../../api";
 import "./issueStatus.css";
 
 type IssueStatusProps = {
