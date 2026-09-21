@@ -1,13 +1,9 @@
-import { useRef } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchIssues } from "../../api";
-import "./issueList.css";
 import { IssueRow } from "../issueRow/issueRow";
+import { useIssues } from "../../hooks/useIssues";
+import "./issueList.css";
+import { useIssueVirtualizer } from "../../hooks/useIssueVirtualization";
 
 export function IssueList() {
-  const parentRef = useRef<HTMLDivElement | null>(null);
-
   const {
     data,
     isPending,
@@ -16,45 +12,15 @@ export function IssueList() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["issues"],
-    queryFn: ({ pageParam }) => fetchIssues(pageParam),
-    initialPageParam: 1,
-    getNextPageParam: (lastlyFetchedPage, allPagesFetchedSoFar) => {
-      const numberOfLastPageIssues = lastlyFetchedPage.length;
-
-      if (numberOfLastPageIssues === 0) {
-        return undefined;
-      }
-
-      return allPagesFetchedSoFar.length + 1;
-    },
-  });
+  } = useIssues();
 
   const issues = data?.pages.flat() ?? [];
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const rowVirtualizer = useVirtualizer({
-    count: issues.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 100,
-    measureElement: (element) => element.getBoundingClientRect().height,
-    onChange: (instance) => {
-      const virtualItems = instance.getVirtualItems();
-      const lastItem = virtualItems[virtualItems.length - 1];
-
-      if (!lastItem) {
-        return;
-      }
-
-      if (
-        lastItem.index >= issues.length - 5 &&
-        hasNextPage &&
-        !isFetchingNextPage
-      ) {
-        fetchNextPage();
-      }
-    },
+  const { parentRef, rowVirtualizer } = useIssueVirtualizer({
+    issues,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
   });
 
   if (isPending) {
