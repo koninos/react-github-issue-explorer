@@ -4,6 +4,7 @@ import { Error } from "../error/error";
 import { useIssueVirtualizer } from "../../hooks/useIssueVirtualization";
 import { Loader } from "../loader/loader";
 import "./issueList.css";
+import { EmptyState } from "../emptyState/emptyState";
 
 export function IssueList() {
   const {
@@ -25,6 +26,8 @@ export function IssueList() {
     fetchNextPage,
   });
 
+  const isReady = !isPending && !isError;
+
   return (
     <main className="issue-explorer">
       <header className="page-header">
@@ -36,7 +39,9 @@ export function IssueList() {
 
       {isError && <Error errorMsg={error.message} />}
 
-      {!isPending && !isError && (
+      {isReady && issues.length === 0 && <EmptyState />}
+
+      {isReady && issues.length > 0 && (
         <div
           className="issue-list"
           ref={parentRef}
