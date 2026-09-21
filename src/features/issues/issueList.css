@@ -1,11 +1,12 @@
 .issue-list {
+  height: 600px;
+  overflow-y: auto;
   margin: 0;
   padding: 0;
   list-style: none;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  overflow: hidden;
 }
 
 .issue-list > li + li {
@@ -84,4 +85,11 @@
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
   text-align: center;
+}
+
+.issue-row {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }

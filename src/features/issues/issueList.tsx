@@ -1,10 +1,11 @@
+import { useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchIssues } from "./api";
-import { useEffect, useRef } from "react";
 import "./issueList.css";
 
 export function IssueList() {
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const parentRef = useRef<HTMLUListElement | null>(null);
 
   const {
     data,
@@ -29,25 +30,31 @@ export function IssueList() {
     },
   });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((intersectionEntries) => {
-      const [entry] = intersectionEntries;
+  const issues = data?.pages.flat() ?? [];
 
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const rowVirtualizer = useVirtualizer({
+    count: issues.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 100,
+    measureElement: (element) => element.getBoundingClientRect().height,
+    onChange: (instance) => {
+      const virtualItems = instance.getVirtualItems();
+      const lastItem = virtualItems[virtualItems.length - 1];
+
+      if (!lastItem) {
+        return;
+      }
+
+      if (
+        lastItem.index >= issues.length - 5 &&
+        hasNextPage &&
+        !isFetchingNextPage
+      ) {
         fetchNextPage();
       }
-    });
-
-    const sentinel = sentinelRef.current;
-
-    if (sentinel) {
-      observer.observe(sentinel);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+    },
+  });
 
   if (isPending) {
     return <p>Loading...</p>;
@@ -57,8 +64,6 @@ export function IssueList() {
     return <p>Error: {error.message}</p>;
   }
 
-  const issues = data?.pages.flat() ?? [];
-
   return (
     <main className="issue-explorer">
       <header className="page-header">
@@ -66,35 +71,52 @@ export function IssueList() {
         <p>Browse issues from the React repository</p>
       </header>
 
-      <ul className="issue-list">
-        {issues.map(({ id, html_url, title, number, state, author }) => (
-          <li key={id}>
-            <article className="issue-card">
-              <div className="issue-card__header">
-                <h2>
-                  <a href={html_url}>{title}</a>
-                </h2>
-              </div>
+      <ul className="issue-list" ref={parentRef}>
+        <div
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const issue = issues[virtualRow.index];
+            const { id, html_url, title, number, state, author } = issue;
 
-              <div className="issue-card__meta">
-                <span>#{number}</span>
+            return (
+              <li
+                key={id}
+                ref={rowVirtualizer.measureElement}
+                className="issue-row"
+                style={{
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+              >
+                <article className="issue-card">
+                  <div className="issue-card__header">
+                    <h2>
+                      <a href={html_url}>{title}</a>
+                    </h2>
+                  </div>
 
-                <span className={`issue-status issue-status--${state}`}>
-                  <span
-                    className="issue-status__indicator"
-                    aria-hidden="true"
-                  />
-                  {state}
-                </span>
+                  <div className="issue-card__meta">
+                    <span>#{number}</span>
 
-                <span>{author}</span>
-              </div>
-            </article>
-          </li>
-        ))}
+                    <span className={`issue-status issue-status--${state}`}>
+                      <span
+                        className="issue-status__indicator"
+                        aria-hidden="true"
+                      />
+                      {state}
+                    </span>
+
+                    <span>{author}</span>
+                  </div>
+                </article>
+              </li>
+            );
+          })}
+        </div>
       </ul>
-
-      <div ref={sentinelRef} className="scroll-sentinel" />
 
       {isFetchingNextPage && (
         <p className="loading-indicator" role="status">
