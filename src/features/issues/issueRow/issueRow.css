@@ -1,0 +1,47 @@
+.issue-row {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.issue-card {
+  padding: var(--spacing-md) 20px;
+}
+
+.issue-card__header h2 {
+  margin: 0;
+  font-size: var(--font-size-md);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.issue-card__header a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.issue-card__header a:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+}
+
+.issue-card__header a:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.issue-card__header a:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+}
+
+.issue-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: var(--spacing-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
