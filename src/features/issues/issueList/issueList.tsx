@@ -6,7 +6,7 @@ import "./issueList.css";
 import { IssueRow } from "../issueRow/issueRow";
 
 export function IssueList() {
-  const parentRef = useRef<HTMLUListElement | null>(null);
+  const parentRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data,
@@ -72,11 +72,15 @@ export function IssueList() {
         <p>Browse issues from the React repository</p>
       </header>
 
-      <ul className="issue-list" ref={parentRef}>
-        <div
+      <div
+        className="issue-list"
+        ref={parentRef}
+        aria-label="React repository issues"
+      >
+        <ul
+          className="issue-list__content"
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`,
-            position: "relative",
           }}
         >
           {rowVirtualizer.getVirtualItems().map((virtualRow) => {
@@ -91,8 +95,8 @@ export function IssueList() {
               />
             );
           })}
-        </div>
-      </ul>
+        </ul>
+      </div>
 
       {isFetchingNextPage && (
         <p className="loading-indicator" role="status">
