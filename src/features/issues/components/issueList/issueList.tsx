@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchIssues } from "../api";
+import { fetchIssues } from "../../api";
 import "./issueList.css";
 import { IssueRow } from "../issueRow/issueRow";
 

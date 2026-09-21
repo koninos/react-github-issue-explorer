@@ -1,5 +1,5 @@
 import "./App.css";
-import { IssueList } from "./features/issues/issueList/issueList";
+import { IssueList } from "./features/issues/components/issueList/issueList";
 
 function App() {
   return <IssueList />;

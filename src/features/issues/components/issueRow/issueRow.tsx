@@ -1,7 +1,7 @@
 import type { VirtualItem } from "@tanstack/react-virtual";
-import type { Issue } from "../api";
-import "./issueRow.css";
+import type { Issue } from "../../api";
 import { IssueStatus } from "../issueStatus/issueStatus";
+import "./issueRow.css";
 
 type IssueRowProps = {
   issue: Issue;
