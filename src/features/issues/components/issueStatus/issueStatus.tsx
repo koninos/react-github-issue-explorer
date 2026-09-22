@@ -1,14 +1,16 @@
 import type { Issue } from "../../api";
-import "./issueStatus.css";
+import styles from "./issueStatus.module.css";
 
 type IssueStatusProps = {
   state: Issue["state"];
 };
 
 export function IssueStatus({ state }: IssueStatusProps) {
+  const status = state === "open" ? "issueStatus--open" : "issueStatus--closed";
+
   return (
-    <span className={`issue-status issue-status--${state}`}>
-      <span className="issue-status__indicator" aria-hidden="true" />
+    <span className={`${styles.issueStatus} ${styles[status]}`}>
+      <span className={styles.issueStatus__indicator} aria-hidden="true" />
       {state}
     </span>
   );

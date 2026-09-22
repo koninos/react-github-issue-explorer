@@ -1,21 +1,21 @@
-.issue-status {
+.issueStatus {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
   text-transform: capitalize;
 }
 
-.issue-status__indicator {
+.issueStatus--open {
+  color: var(--color-success);
+}
+
+.issueStatus--closed {
+  color: var(--color-danger);
+}
+
+.issueStatus__indicator {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: currentColor;
-}
-
-.issue-status--open {
-  color: var(--color-success);
-}
-
-.issue-status--closed {
-  color: var(--color-danger);
 }

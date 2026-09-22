@@ -4,7 +4,7 @@ import { Error } from "../error/error";
 import { useIssueVirtualizer } from "../../hooks/useIssueVirtualization";
 import { Loader } from "../loader/loader";
 import { EmptyState } from "../emptyState/emptyState";
-import "./issueList.css";
+import styles from "./issueList.module.css";
 
 export function IssueList() {
   const {
@@ -29,8 +29,8 @@ export function IssueList() {
   const isReady = !isPending && !isError;
 
   return (
-    <main className="issue-explorer">
-      <header className="page-header">
+    <main className={styles.issueExplorer}>
+      <header className={styles.pageHeader}>
         <h1>Issue Explorer</h1>
         <p>Browse issues from the React repository</p>
       </header>
@@ -43,12 +43,12 @@ export function IssueList() {
 
       {isReady && issues.length > 0 && (
         <div
-          className="issue-list"
+          className={styles.issueList}
           ref={parentRef}
           aria-label="React repository issues"
         >
           <ul
-            className="issue-list__content"
+            className={styles.issueList__content}
             style={{
               height: `${rowVirtualizer.getTotalSize()}px`,
             }}
@@ -70,7 +70,7 @@ export function IssueList() {
       )}
 
       {isFetchingNextPage && (
-        <p className="loading-indicator" role="status">
+        <p className={styles.loadingIndicator} role="status">
           Loading more issues...
         </p>
       )}

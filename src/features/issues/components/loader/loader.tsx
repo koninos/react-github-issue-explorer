@@ -1,9 +1,9 @@
-import "./loader.css";
+import styles from "./loader.module.css";
 
 export function Loader() {
   return (
-    <div className="loading-state" role="status">
-      <span className="loading-spinner" aria-hidden="true" />
+    <div className={styles.loadingState} role="status">
+      <span className={styles.loadingSpinner} aria-hidden="true" />
       <span>Loading issues...</span>
     </div>
   );

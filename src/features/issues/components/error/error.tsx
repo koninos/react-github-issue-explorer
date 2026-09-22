@@ -1,4 +1,4 @@
-import "./error.css";
+import styles from "./error.module.css";
 
 type ErrorStateProps = {
   errorMsg: string;
@@ -6,9 +6,9 @@ type ErrorStateProps = {
 
 export function Error({ errorMsg }: ErrorStateProps) {
   return (
-    <div className="error-state" role="alert">
-      <p className="error-state__title">Unable to load issues</p>
-      <p className="error-state__message">{errorMsg}</p>
+    <div className={styles.errorState} role="alert">
+      <p className={styles.errorState__title}>Unable to load issues</p>
+      <p className={styles.errorState__message}>{errorMsg}</p>
     </div>
   );
 }

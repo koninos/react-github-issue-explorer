@@ -1,7 +1,7 @@
 import type { VirtualItem } from "@tanstack/react-virtual";
 import type { Issue } from "../../api";
 import { IssueStatus } from "../issueStatus/issueStatus";
-import "./issueRow.css";
+import styles from "./issueRow.module.css";
 
 type IssueRowProps = {
   issue: Issue;
@@ -16,19 +16,19 @@ export function IssueRow({ issue, virtualRow, measureElement }: IssueRowProps) {
     <li
       ref={measureElement}
       data-index={virtualRow.index}
-      className="issue-row"
+      className={styles.issueRow}
       style={{
         transform: `translateY(${virtualRow.start}px)`,
       }}
     >
-      <article className="issue-card">
-        <div className="issue-card__header">
+      <article className={styles.issueCard}>
+        <div className={styles.issueCard__header}>
           <h2>
             <a href={html_url}>{title}</a>
           </h2>
         </div>
 
-        <div className="issue-card__meta">
+        <div className={styles.issueCard__meta}>
           <span>#{number}</span>
 
           <IssueStatus state={state} />

@@ -1,4 +1,3 @@
-import "./App.css";
 import { IssueList } from "./features/issues/components/issueList/issueList";
 
 function App() {
