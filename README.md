@@ -4,6 +4,8 @@ A React application for browsing issues from the React GitHub repository.
 
 This project focuses on practicing modern frontend techniques for handling continuously loaded lists while keeping the UI responsive, accessible, and maintainable.
 
+[Live Demo]([https://real-time-crypto-price-eight.vercel.app/](https://react-github-issue-explorer.vercel.app/))
+
 ## Features
 
 - Fetch issues from the GitHub REST API
