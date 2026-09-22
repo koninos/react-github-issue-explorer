@@ -1,0 +1,21 @@
+.issueStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-transform: capitalize;
+
+  &--open {
+    color: var(--color-success);
+  }
+
+  &--closed {
+    color: var(--color-danger);
+  }
+
+  &__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}

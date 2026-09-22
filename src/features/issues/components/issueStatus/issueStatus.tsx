@@ -1,5 +1,5 @@
 import type { Issue } from "../../api";
-import styles from "./issueStatus.module.css";
+import styles from "./issueStatus.module.scss";
 
 type IssueStatusProps = {
   state: Issue["state"];

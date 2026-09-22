@@ -8,16 +8,16 @@
   padding: var(--spacing-lg);
   color: var(--color-text-muted);
   text-align: center;
-}
 
-.emptyState__title {
-  margin: 0;
-  color: var(--color-text);
-  font-size: var(--font-size-md);
-  font-weight: 600;
-}
+  &__title {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+  }
 
-.emptyState__message {
-  margin: 0;
-  font-size: var(--font-size-sm);
+  &__message {
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
 }

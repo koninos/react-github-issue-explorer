@@ -1,0 +1,44 @@
+.issueRow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.issueCard {
+  padding: var(--spacing-md) 20px;
+
+  &__header {
+    h2 {
+      margin: 0;
+      font-size: var(--font-size-md);
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--color-text);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-text-link);
+        text-decoration: underline;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-text-link);
+        outline-offset: 3px;
+        border-radius: var(--radius-sm);
+      }
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: var(--spacing-sm);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+}

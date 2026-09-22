@@ -11,16 +11,16 @@
   background: var(--color-surface);
   color: var(--color-danger);
   text-align: center;
-}
 
-.errorState__title {
-  margin: 0;
-  font-size: var(--font-size-md);
-  font-weight: 600;
-}
+  &__title {
+    margin: 0;
+    font-size: var(--font-size-md);
+    font-weight: 600;
+  }
 
-.errorState__message {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  &__message {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
 }

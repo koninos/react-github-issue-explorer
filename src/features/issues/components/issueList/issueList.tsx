@@ -4,7 +4,7 @@ import { Error } from "../error/error";
 import { useIssueVirtualizer } from "../../hooks/useIssueVirtualization";
 import { Loader } from "../loader/loader";
 import { EmptyState } from "../emptyState/emptyState";
-import styles from "./issueList.module.css";
+import styles from "./issueList.module.scss";
 
 export function IssueList() {
   const {
